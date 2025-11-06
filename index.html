@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You 💌</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f5f5f5, #d1cfc7, #f7e7c1);
+      font-family: 'Poppins', sans-serif;
+      transition: background 1s ease;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 600px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 30px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-weight: 600;
+      font-size: 24px;
+      color: #3b3b3b;
+    }
+
+    input {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      outline: none;
+      width: 80%;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 15px;
+      background: #d6b85a;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #bfa442;
+      transform: scale(1.05);
+    }
+
+    #confess {
+      font-size: 18px;
+      color: #444;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      display: inline-block;
+      text-align: left;
+    }
+
+    .fade {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="page1">
+    <h1>nama kamu?</h1>
+    <input type="text" id="nameInput" placeholder="tulis nama kamu...">
+    <br>
+    <button onclick="goToWelcome()">Masuk 💌</button>
+  </div>
+
+  <div class="container fade" id="page2">
+    <h1 id="welcomeText"></h1>
+    <button onclick="goToConfess()">Next ➜</button>
+  </div>
+
+  <div class="container fade" id="page3">
+    <p id="confess"></p>
+  </div>
+
+  <script>
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
+    const welcomeText = document.getElementById('welcomeText');
+    const confessText = document.getElementById('confess');
+
+    const message = `you know, I’m not the type who easily says what I feel. most of the time, I’d rather keep it to myself, hiding behind small talks, laughter, or silence. but lately, even when I try to act fine, my heart betrays me. whenever you’re near, everything feels calm, like the world finally slows down , and somehow, that peace only exists when you’re there.  i tried to convince myself that this is temporary, something i can brush off. but the more i pretend, the more i realize how genuine it feels.  i won’t call it love. but it’s something real, something that makes me look for you in every quiet moment. and maybe… that’s enough for now.`;
+
+    function goToWelcome() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (name === '') return alert('isi dulu dong namanya');
+      page1.classList.add('fade');
+      setTimeout(() => {
+        page1.style.display = 'none';
+        welcomeText.textContent = `selamat datang, ${name} 🤍 aku bukan mau bikin momen besar atau gimana. kalau kamu cukup peka, kamu bakal ngerti kenapa aku nulis ini.
+oh, dan maaf kalau nanti bahasanya agak beda aku cuma pengen kamu ngerasainnya, bukan sekadar ngerti bahasanya`;
+        page2.style.display = 'block';
+        page2.classList.add('show');
+      }, 500);
+    }
+
+    function goToConfess() {
+      page2.classList.remove('show');
+      setTimeout(() => {
+        page2.style.display = 'none';
+        page3.style.display = 'block';
+        page3.classList.add('show');
+        typeWriterEffect(message, confessText);
+      }, 500);
+    }
+
+    function typeWriterEffect(text, element) {
+      let index = 0;
+      function type() {
+        if (index < text.length) {
+          element.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, 35);
+        }
+      }
+      type();
+    }
+  </script>
+
+</body>
+</html>
