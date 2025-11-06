@@ -11,22 +11,29 @@
       margin: 0;
       padding: 0;
       height: 100vh;
+      width: 100vw;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #f5f5f5, #d1cfc7, #f7e7c1);
+      background: radial-gradient(circle at top left, #dfe9f3, #f7f7f7, #f5e6ca);
       font-family: 'Poppins', sans-serif;
-      transition: background 1s ease;
+      overflow: hidden;
     }
 
     .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
       max-width: 600px;
+      width: 90%;
       padding: 30px;
       background: rgba(255, 255, 255, 0.8);
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
       border-radius: 20px;
       backdrop-filter: blur(10px);
+      transition: opacity 0.8s ease;
     }
 
     h1 {
@@ -51,7 +58,7 @@
       padding: 10px 25px;
       border: none;
       border-radius: 15px;
-      background: #d6b85a;
+      background: #1e90ff;
       color: white;
       font-size: 16px;
       cursor: pointer;
@@ -59,7 +66,7 @@
     }
 
     button:hover {
-      background: #bfa442;
+      background: #187bcd;
       transform: scale(1.05);
     }
 
@@ -72,31 +79,32 @@
       text-align: left;
     }
 
-    .fade {
+    .hidden {
       opacity: 0;
-      transition: opacity 1s ease;
+      pointer-events: none;
     }
 
-    .show {
+    .visible {
       opacity: 1;
+      pointer-events: auto;
     }
   </style>
 </head>
 <body>
 
-  <div class="container" id="page1">
+  <div class="container visible" id="page1">
     <h1>nama kamu?</h1>
     <input type="text" id="nameInput" placeholder="tulis nama kamu...">
     <br>
     <button onclick="goToWelcome()">Masuk 💌</button>
   </div>
 
-  <div class="container fade" id="page2">
+  <div class="container hidden" id="page2">
     <h1 id="welcomeText"></h1>
     <button onclick="goToConfess()">Next ➜</button>
   </div>
 
-  <div class="container fade" id="page3">
+  <div class="container hidden" id="page3">
     <p id="confess"></p>
   </div>
 
@@ -107,32 +115,30 @@
     const welcomeText = document.getElementById('welcomeText');
     const confessText = document.getElementById('confess');
 
-    const message = `you know, I’m not the type who easily says what I feel. most of the time, I’d rather keep it to myself, hiding behind small talks, laughter, or silence. but lately, even when I try to act fine, my heart betrays me. whenever you’re near, everything feels calm, like the world finally slows down , and somehow, that peace only exists when you’re there.  i tried to convince myself that this is temporary, something i can brush off. but the more i pretend, the more i realize how genuine it feels.  i won’t call it love. but it’s something real, something that makes me look for you in every quiet moment. and maybe… that’s enough for now.`;
+    const message = you know, I’m not the type who easily says what I feel. most of the time, I’d rather keep it to myself, hiding behind small talks, laughter, or silence. but lately, even when I try to act fine, my heart betrays me. whenever you’re near, everything feels calm, like the world finally slows down , and somehow, that peace only exists when you’re there.  i tried to convince myself that this is temporary, something i can brush off. but the more i pretend, the more i realize how genuine it feels.  i won’t call it love. but it’s something real, something that makes me look for you in every quiet moment. and maybe… that’s enough for now.;
 
     function goToWelcome() {
       const name = document.getElementById('nameInput').value.trim();
       if (name === '') return alert('isi dulu dong namanya');
-      page1.classList.add('fade');
+
+      page1.classList.replace('visible', 'hidden');
       setTimeout(() => {
-        page1.style.display = 'none';
         welcomeText.textContent = `selamat datang, ${name} 🤍 aku bukan mau bikin momen besar atau gimana. kalau kamu cukup peka, kamu bakal ngerti kenapa aku nulis ini.
 oh, dan maaf kalau nanti bahasanya agak beda aku cuma pengen kamu ngerasainnya, bukan sekadar ngerti bahasanya`;
-        page2.style.display = 'block';
-        page2.classList.add('show');
-      }, 500);
+        page2.classList.replace('hidden', 'visible');
+      }, 400);
     }
 
     function goToConfess() {
-      page2.classList.remove('show');
+      page2.classList.replace('visible', 'hidden');
       setTimeout(() => {
-        page2.style.display = 'none';
-        page3.style.display = 'block';
-        page3.classList.add('show');
+        page3.classList.replace('hidden', 'visible');
         typeWriterEffect(message, confessText);
-      }, 500);
+      }, 400);
     }
 
     function typeWriterEffect(text, element) {
+      element.textContent = "";
       let index = 0;
       function type() {
         if (index < text.length) {
